@@ -6,12 +6,14 @@ WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 600
 SURFACE = pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.RESIZABLE
 
-# define colours
+# Define colors
 BLACK = (0, 0, 0)
 BLUE = (0, 0, 200)
 GREEN = (0, 200, 0)
+RED = (200, 0, 0)
+PURPLE = (100, 0, 100)
 
-MAP_DATA = modules.map.map_terrain
+map_data = modules.map.map_handler()
 
 
 # Class to render map-data to a surface image
@@ -21,7 +23,7 @@ class TileMap:
     def __init__(self, map_data):
         """ Load in the map data, generating a tiled-image """
         self.map_data = map_data
-        map_width = len(self.map_data[0]) - 1
+        map_width = len(self.map_data[0])
         map_length = len(self.map_data)
         # Create an image to hold all the map tiles
         self.image = pygame.Surface((map_width * TileMap.TILE_SIZE, map_length * TileMap.TILE_SIZE))
@@ -36,6 +38,10 @@ class TileMap:
                     pygame.draw.rect(self.image, BLUE, tile_rect)
                 elif map_symbol == 1:
                     pygame.draw.rect(self.image, GREEN, tile_rect)
+                elif map_symbol == "ship":
+                    pygame.draw.rect(self.image, PURPLE, tile_rect)
+                elif map_symbol == "capital":
+                    pygame.draw.rect(self.image, RED, tile_rect)
                 else:
                     pass  # ignore \n etc.
                 x_cursor += TileMap.TILE_SIZE
@@ -54,7 +60,7 @@ window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), SURFACE)
 pygame.display.set_caption("Render Tile Map")
 
 # Load the map
-tile_map = TileMap(MAP_DATA)
+tile_map = TileMap(map_data)
 
 # Main Loop
 clock = pygame.time.Clock()

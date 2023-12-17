@@ -1,3 +1,5 @@
+import random
+
 gold = 5
 land = 1
 
